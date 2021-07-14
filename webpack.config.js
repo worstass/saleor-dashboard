@@ -9,6 +9,7 @@ const SentryWebpackPlugin = require("@sentry/webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 require("dotenv").config();
 
@@ -36,8 +37,9 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
   hash: true,
   template: "./src/index.html"
 });
+const window = {};
 const environmentPlugin = new webpack.EnvironmentPlugin({
-  API_URI: "",
+  API_URI: window.api_uri,
   APP_MOUNT_URI: "/",
   DEMO_MODE: false,
   ENVIRONMENT: "",
@@ -54,9 +56,9 @@ module.exports = speedMeasureWrapper((env, argv) => {
   let fileLoaderPath;
   let output;
 
-  if (!process.env.API_URI) {
-    throw new Error("Environment variable API_URI not set");
-  }
+  //  if (!process.env.API_URI) {
+  //    throw new Error("Environment variable API_URI not set");
+  //  }
 
   const publicPath = process.env.STATIC_URL || "/";
   if (!devMode) {
@@ -143,6 +145,7 @@ module.exports = speedMeasureWrapper((env, argv) => {
     },
     output,
     plugins: [
+      new CopyPlugin({ patterns: ["config.js"] }),
       checkerPlugin,
       environmentPlugin,
       htmlWebpackPlugin,
