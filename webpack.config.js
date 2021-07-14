@@ -65,16 +65,16 @@ module.exports = speedMeasureWrapper((env, argv) => {
     output = {
       chunkFilename: "[name].[chunkhash].js",
       filename: "[name].[chunkhash].js",
-      path: resolve(dashboardBuildPath),
-      publicPath
+      path: resolve(dashboardBuildPath)
+      //      publicPath
     };
     fileLoaderPath = "file-loader?name=[name].[hash].[ext]";
   } else {
     output = {
       chunkFilename: "[name].js",
       filename: "[name].js",
-      path: resolve(dashboardBuildPath),
-      publicPath
+      path: resolve(dashboardBuildPath)
+      //      publicPath
     };
     fileLoaderPath = "file-loader?name=[name].[ext]";
   }
